@@ -4,6 +4,7 @@ import os
 import re
 import json
 import datetime
+import streamlit as st
 from collections import Counter
 
 from browser_history import get_history
