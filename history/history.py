@@ -7,6 +7,10 @@ from collections import Counter
 from browser_history import get_history
 from dotenv import load_dotenv
 from google import genai
+from browser_history.browsers import Chrome
+
+# if windows, set to False. if mac, set to True.
+using_windows = False
 
 MAX_URL_LENGTH = 100
 HISTORY_CACHE_FILE = "history.txt"
@@ -25,7 +29,10 @@ def truncate_url(url):
 
 
 if not os.path.isfile(HISTORY_CACHE_FILE):
-    outputs = get_history()
+    if using_windows:
+        outputs = get_history()
+    else:
+        outputs = Chrome().fetch_history()
     raw_history = outputs.histories
     with open(HISTORY_CACHE_FILE, "w", encoding="utf-8") as f:
         for h in raw_history:

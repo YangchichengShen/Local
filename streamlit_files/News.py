@@ -1,13 +1,19 @@
 import streamlit as st
+import datetime
 
 st.set_page_config(
-    page_title="Hello",
-    page_icon="👋",
+    page_title="News in Context",
+    page_icon="📰",
 )
 
-st.write("# Welcome to Streamlit! 👋")
+st.header("News in Context")
+c = st.container()
+st.write("CCC")
+c.write("AAA")
+c.write("BBB")
 
-st.sidebar.success("Select a demo above.")
+st.sidebar.success("Select a Relevance Ranking:")
+datetime.datetime.now()
 
 st.markdown(
     """
