@@ -2,6 +2,8 @@
 
 import os
 import re
+import json
+import datetime
 from collections import Counter
 
 from browser_history import get_history
@@ -51,9 +53,61 @@ history_words_counter = Counter(history_words)
 
 response = client.models.generate_content(
     model="gemini-2.0-flash",
-    contents="Here is word count data of the browser history of a user. Summarize the data in a few words. "
-    + str(history_words_counter.most_common(200)),
+    # Output a list of the users interests
+    contents=(
+        "You are an API generating machine. "
+        "Given the following word count data extracted from a user's browser history, "
+        "analyze it and output ONLY a JSON object listing the user's categories of interests. "
+        "Respond ONLY with valid JSON and nothing else. The schema should be:\n\n"
+        "{\n"
+        '  "interests": ["string", "string", ...]\n'
+        "}\n\n"
+        "Here is the word count data: "
+        + str(history_words_counter.most_common(200))
+    ),
     config={"temperature": 0.0},
 )
 
-print(response.text)
+# view what Gemini actually said
+print("Raw Gemini output:\n", response.text)
+
+raw_text = response.text.strip()
+
+# check that Gemini responded with something
+if not raw_text:
+    raise ValueError("Empty Gemini Response")
+
+# use regex to extract content inside backticks
+if raw_text.startswith("```"):
+    match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", raw_text, re.DOTALL)
+    if match:
+        json_text = match.group(1)
+        print(json_text)
+    else:
+        raise ValueError("Could not find valid JSON inside triple backticks.")
+else:
+    json_text = raw_text
+
+# parse gemini output text to json
+try:
+    interests = json.loads(json_text)
+except json.JSONDecodeError as e:
+    raise ValueError(f"Failed to parse Gemini output as JSON: {e}")
+
+# print output
+print("Interests parsed:\n", interests["interests"])
+
+# define output directory to store jsons
+output_dir = "interests_outputs"
+os.makedirs(output_dir, exist_ok=True)
+
+# define filename and file path
+timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+filename = f"interests_{timestamp}.json"
+filepath = os.path.join(output_dir, filename)
+
+# save json
+with open(filepath, "w", encoding="utf-8") as f:
+    json.dump(interests, f, indent=2)
+
+print(f"Output saved to {filepath}")
