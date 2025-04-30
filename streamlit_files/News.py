@@ -1,6 +1,6 @@
 import streamlit as st
 import datetime
-
+import json
 st.set_page_config(
     page_title="News in Context",
     page_icon="📰",
@@ -26,13 +26,13 @@ def news_box(interests, news_blurb):
         """,
         unsafe_allow_html=True
     )
-interests = "Swimming"
+# Gathered from database as a list of interests, currently just as a list of strings from a dummy file.
+# Get and read file from interests_outputs using relative path
+path_to_json = "../interests_outputs/interests_20250428_171726.json"
+with open(path_to_json, 'r', encoding='utf-8') as file:
+    interests_json = json.load(file)
+    interests = interests_json["interests"]
+
 news_blurb = "The 29-year-old cleared the World Aquatics ‘A’ standard of 22.05 needed for Singapore, hitting the 2nd-best time of his career in the process. The veteran’s lifetime best remains at the 21.90 put up at last year’s European Championships as the 4th-place finisher."
-news_box(interests, news_blurb)
-news_box(interests, news_blurb)
-news_box(interests, news_blurb)
-news_box(interests, news_blurb)
-news_box(interests, news_blurb)
-news_box(interests, news_blurb)
-news_box(interests, news_blurb)
-news_box(interests, news_blurb)
+for interest in interests:
+    news_box(interest, news_blurb)
