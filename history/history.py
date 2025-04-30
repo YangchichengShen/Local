@@ -4,7 +4,6 @@ import os
 import re
 import json
 import datetime
-import streamlit as st
 from collections import Counter
 
 from browser_history import get_history
@@ -56,7 +55,6 @@ response = client.models.generate_content(
     model="gemini-2.0-flash",
     # Output a list of the users interests
     contents=(
-        "You are an API generating machine. "
         "Given the following word count data extracted from a user's browser history, "
         "analyze it and output ONLY a JSON object listing the user's categories of interests. "
         "Respond ONLY with valid JSON and nothing else. The schema should be:\n\n"

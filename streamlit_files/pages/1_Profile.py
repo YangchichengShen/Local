@@ -1,6 +1,10 @@
+# pip install streamlit
+
 import streamlit as st
 import json
 import os
+
+from pathlib import Path
 
 st.set_page_config(page_title="Contextify", page_icon="📰")
 
@@ -46,16 +50,11 @@ def display_interests():
             st.rerun()
 
 
-# Get the directory of the *current* Python file
-#base_dir = os.path.dirname(__file__)
 
-# Now correctly join paths relative to this file
-#path_to_json = os.path.abspath(os.path.join(base_dir, "..", "..", "..", "interests", "interests_20250428_171726.json"))
+ # get root directory
+root_dir = Path(__file__).resolve().parent.parent.parent
 
-# Path to your output JSON (adjust depending on your folder structure)
-#path_to_json = "../../interests_outputs/interests_20250428_171726.json"
-            
-path_to_json = "/Users/shraeyaiyer/Desktop/cs338/Local/interests_outputs/interests_20250428_171726.json"
+path_to_json = root_dir / "interests_outputs" / "interests_20250428_171726.json"
 
 # Load it
 with open(path_to_json, "r", encoding="utf-8") as f:
