@@ -17,4 +17,4 @@ def call_gemini_2_flash(prompt, temperature=0.5):
     return response.text
 
 # # Test the function with a sample prompt
-# print(call_gemini_2_flash("Hello"))
+# print(call_gemini_2_flash("You are a news aggregator. Provide a summary of the latest news in technology."))
