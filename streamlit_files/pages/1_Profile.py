@@ -3,6 +3,7 @@
 import streamlit as st
 import json
 import os
+from reddit_scrape import get_auth_url, auth_and_fetch_user, get_content
 
 from pathlib import Path
 
@@ -67,3 +68,30 @@ if "interests" not in st.session_state:
     st.session_state.interests = interests
 
 display_interests()
+
+auth_url = get_auth_url()
+
+st.markdown(f"[**Log in with Reddit**]({auth_url})")
+params = st.experimental_get_query_params()
+
+if "code" in params:
+    code = params["code"][0]
+    try:
+        user, reddit = auth_and_fetch_user(code)
+        st.success(f"Logged in as: {user.name}")
+
+        # Step 3: Fetch submissions
+        st.subheader("Your Latest Reddit Submissions:")
+        for submission in user.submissions.new(limit=10):
+            st.write(f"**{submission.title}** — r/{submission.subreddit}")
+            st.write(submission.url)
+            st.write("---")
+        st.subheader("Subreddits You Belong To:")
+        for subreddit in reddit.user.subreddits(limit=20):  # adjust limit as needed
+            st.write(f"r/{subreddit.display_name} — {subreddit.title}")
+
+        subs_and_scores = get_content(user, reddit)
+        print(subs_and_scores)
+
+    except Exception as e:
+        st.error(f"Login failed: {e}")
