@@ -9,9 +9,8 @@ from pathlib import Path
 
 st.set_page_config(page_title="Contextify", page_icon="📰")
 
-st.markdown("# Profile")
-st.sidebar.header("Profile")
-st.markdown("*Hi, Shraeya Iyer!*")
+st.header("Profile")
+
 st.write(
     "Welcome to your Profile! This is the information about you and your interests that your personalized news is built on - take a look and add any that you'd like."
 )
@@ -55,7 +54,9 @@ def display_interests():
  # get root directory
 root_dir = Path(__file__).resolve().parent.parent.parent
 
-path_to_json = root_dir / "interests_outputs" / "interests_20250428_171726.json"
+interests_directory = "outputs"
+interest_files = sorted([f for f in os.listdir(interests_directory) if f.startswith("interests")])
+path_to_json = os.path.join(interests_directory, interest_files[0])
 
 # Load it
 with open(path_to_json, "r", encoding="utf-8") as f:

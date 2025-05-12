@@ -55,7 +55,7 @@ interests_json = {
 }
 
 contextify_prompt = '''
-You are a news aggregator. Given the following interests, provide a contextified summary of the latest news that would be relevant to these interests. Respond with a JSON object where each key is an interest and the value is a brief news blurb related to that interest. The schema should be:
+You are a news aggregator. Given the following interests, provide a contextified summary of the latest news that would be relevant to these interests. Respond with a JSON object where each key is an interest and the value is a brief news blurb related to that interest (at least 3 sentences). The schema should be:
 
 {
   "interest1": "news blurb for interest1",

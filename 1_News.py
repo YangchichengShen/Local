@@ -3,6 +3,7 @@ import datetime
 import json
 
 from news_contextify import get_contextified_news
+import os
 
 st.set_page_config(
     page_title="News in Context",
@@ -29,12 +30,18 @@ def news_box(interests, news_blurb):
         """,
         unsafe_allow_html=True
     )
-# Gathered from database as a list of interests, currently just as a list of strings from a dummy file.
-# Get and read file from interests_outputs using relative path
-path_to_json = "interests_outputs/interests_20250428_171726.json"
-with open(path_to_json, 'r', encoding='utf-8') as file:
-    interests_json = json.load(file)
-    interests = interests_json["interests"]
+
+# Get the first file alphabetically starting with "interests" in the folder
+interests_directory = "outputs"
+interest_files = sorted([f for f in os.listdir(interests_directory) if f.startswith("interests")])
+if interest_files:
+    path_to_json = os.path.join(interests_directory, interest_files[0])
+    with open(path_to_json, 'r', encoding='utf-8') as file:
+        interests_json = json.load(file)
+        interests = interests_json["interests"]
+else:
+    st.error("No interests files found in directory.")
+    interests = []
 
 interests_dict_str = get_contextified_news()  # This is already a dict
 print("Interests JSON:", interests_json)

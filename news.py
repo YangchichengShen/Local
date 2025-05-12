@@ -1,6 +1,3 @@
-# See https://newsapi.org/
-# pip install newsapi-python
-
 from newsapi import NewsApiClient
 import json
 from dotenv import load_dotenv
