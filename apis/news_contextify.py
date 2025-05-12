@@ -6,7 +6,6 @@ news_json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "news"
 
 with open(news_json_path, "r", encoding="utf-8") as f:
     example_news = json.load(f)['articles']
-    print("Example news loaded:", example_news)
 
 interests_json = {
   "interests": [
@@ -34,6 +33,7 @@ You are a news aggregator. Given the following interests, provide a contextified
   "interest2": "news blurb for interest2",
   ...
 }
+You do not include all interests in the output, only the ones that have relevant news.
 '''
 
 # TODO: Change the interests_json and example_news to be dynamic based on user input or session state
