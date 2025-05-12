@@ -20,7 +20,6 @@ HISTORY_CUTOFF = 100000
 
 
 load_dotenv()
-client = genai.Client(api_key=os.getenv("GEMINI_KEY"))
 
 
 def truncate_url(url):

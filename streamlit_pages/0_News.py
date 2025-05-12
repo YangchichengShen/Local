@@ -2,7 +2,7 @@ import streamlit as st
 import datetime
 import json
 
-from apis.news_contextify import get_contextified_news
+from news_contextify import get_contextified_news
 
 st.set_page_config(
     page_title="News in Context",
