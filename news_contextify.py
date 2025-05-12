@@ -1,4 +1,4 @@
-from apis.gemini.gemini import call_gemini_2_flash
+from gemini import call_gemini_2_flash
 import json
 import os
 

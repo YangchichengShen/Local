@@ -1,8 +1,11 @@
 from collections import defaultdict
 import praw
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-client_id='QGSx-ZUGb5z0drQaNT6-tA'
-client_secret='O23JSX8bsyF3DSUHCDWDsbMSiE8nUA'
+client_id= os.getenv("REDDIT_CLIENT_ID")
+client_secret=os.getenv("REDDIT_CLIENT_SECRET")
 redirect_uri='http://localhost:8501/Profile'
 user_agent='Contextify/0.1 by Consistent_Gap_197'
 

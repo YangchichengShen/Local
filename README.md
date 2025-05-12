@@ -1,3 +1,8 @@
-run history first, then run streamlit files
+# Contextify
+A application for connecting news to your interests
 
-streamlit run News.py
+## Running the application
+- Fill out `.env.example` and rename to `.env`
+- `pip install -r requirements.txt`
+- `python history.py`
+- `streamlit run 1_News.py`
