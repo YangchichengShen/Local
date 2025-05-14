@@ -101,7 +101,7 @@ print("Interests parsed:\n", interests["interests"])
 
 # define filename and file path
 timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-filename = f"interests_{timestamp}.json"
+filename = "interests.json"
 filepath = os.path.join(OUTPUT_DIR, filename)
 
 # save json
