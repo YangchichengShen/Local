@@ -28,7 +28,7 @@ class NewsAPIArticle:
 class NewsAPIResults:
     status: str
     total_results: int
-    articles: list
+    articles: list[NewsAPIArticle]
 
 
 def get_headlines(save_to_file=False):
