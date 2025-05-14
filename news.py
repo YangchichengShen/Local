@@ -8,7 +8,7 @@ load_dotenv()
 
 
 # Init
-newsapi = NewsApiClient(os.getenv("NEWSAPI_KEY"))
+newsapi = NewsApiClient(os.getenv("NEWS_KEY"))
 
 # /v2/top-headlines
 top_headlines = newsapi.get_top_headlines(
@@ -20,5 +20,6 @@ json_formatted_str = json.dumps(top_headlines, indent=2)
 
 print(json_formatted_str)
 
-with open("news.json", "w", encoding="utf-8") as f:
+path_to_file = os.path.join("outputs", "news.json")
+with open(path_to_file, "w", encoding="utf-8") as f:
     json.dump(top_headlines, f, ensure_ascii=False, indent=2)
