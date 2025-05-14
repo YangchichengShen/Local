@@ -73,7 +73,7 @@ def get_headlines(save_to_file=False):
 
 
 if __name__ == "__main__":
-    headlines = get_headlines()
+    headlines = get_headlines(save_to_file=True)
     print(f"Status: {headlines.status}")
     print(f"Total Results: {headlines.total_results}")
     for article in headlines.articles:
