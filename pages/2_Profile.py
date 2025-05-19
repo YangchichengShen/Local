@@ -3,7 +3,8 @@
 import streamlit as st
 import json
 import os
-from reddit_scrape import get_auth_url, auth_and_fetch_user, get_content
+from reddit_scrape import get_auth_url, auth_and_fetch_user, get_content, save_interests_from_reddit
+
 
 from pathlib import Path
 
@@ -55,7 +56,13 @@ def display_interests():
 root_dir = Path(__file__).resolve().parent.parent.parent
 
 interests_directory = "outputs"
+os.makedirs("outputs", exist_ok=True)
 interest_files = sorted([f for f in os.listdir(interests_directory) if f.startswith("interests")])
+if not interest_files:
+    default_path = os.path.join(interests_directory, "interests.json")
+    with open(default_path, "w", encoding="utf-8") as f:
+        json.dump({"interests": []}, f)
+    interest_files = ["interests.json"]
 path_to_json = os.path.join(interests_directory, interest_files[0])
 
 # Load it
@@ -81,18 +88,23 @@ if "code" in params:
         user, reddit = auth_and_fetch_user(code)
         st.success(f"Logged in as: {user.name}")
 
-        # Step 3: Fetch submissions
+        save_interests_from_reddit(user, reddit)
+
+        with open(path_to_json, "r", encoding="utf-8") as f:
+            interest_json = json.load(f)
+        st.session_state.interests = interest_json["interests"]
+
+        st.rerun()
+
         st.subheader("Your Latest Reddit Submissions:")
         for submission in user.submissions.new(limit=10):
             st.write(f"**{submission.title}** — r/{submission.subreddit}")
             st.write(submission.url)
             st.write("---")
-        st.subheader("Subreddits You Belong To:")
-        for subreddit in reddit.user.subreddits(limit=20):  # adjust limit as needed
-            st.write(f"r/{subreddit.display_name} — {subreddit.title}")
 
-        subs_and_scores = get_content(user, reddit)
-        print(subs_and_scores)
+        st.subheader("Subreddits You Belong To:")
+        for subreddit in reddit.user.subreddits(limit=20):
+            st.write(f"r/{subreddit.display_name} — {subreddit.title}")
 
     except Exception as e:
         st.error(f"Login failed: {e}")
