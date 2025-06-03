@@ -5,4 +5,5 @@ A application for connecting news to your interests
 - Copy `.env.example`, fill it in, and rename the copy to `.env`
 - `pip install -r requirements.txt`
 - `python history.py`
-- `streamlit run 1_News.py`
+- `python news.py`
+- `streamlit run News_Feed.py`

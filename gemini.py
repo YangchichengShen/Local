@@ -1,4 +1,4 @@
-from google import genai
+import google.generativeai as genai
 from dotenv import load_dotenv
 import os
 import json
@@ -6,18 +6,16 @@ import json
 load_dotenv()
 key = os.getenv("GEMINI_KEY")
 
-client = genai.Client(api_key=key)
-
+genai.configure(api_key=key)
 
 def call_gemini_2_flash(prompt, temperature=0.0, schema=None):
-    response = client.models.generate_content(
-        model="gemini-2.0-flash",
+    model = genai.GenerativeModel("gemini-2.0-flash")
+
+    response = model.generate_content(
         contents=prompt,
-        config={
-            "temperature": 0.0,
-            "response_mime_type": "application/json" if schema is not None else None,
-            "response_schema": schema,
-        },
+        generation_config={
+            "temperature": temperature,
+        }
     )
 
     return json.loads(response.text) if schema is not None else response.text

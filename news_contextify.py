@@ -11,7 +11,8 @@ interests_path = "outputs/interests.json"
 with open(interests_path, "r", encoding="utf-8") as f:
     interests_json = json.load(f)
 
-contextify_prompt = '''
+'''
+contextify_prompt = 
 You are a news aggregator. Given the following interests, provide a contextified summary of the latest news that would be relevant to these interests. Respond with a JSON object where each key consistsed of one or more interests and the value is a brief news blurb related to that interest (at least 3 sentences). The schema should be:
 
 {
@@ -20,6 +21,21 @@ You are a news aggregator. Given the following interests, provide a contextified
   ...
 }
 You do not include all interests in the output, only the ones that have relevant news. Each news article should only appear once.
+'''
+
+contextify_prompt = '''
+You are a news aggregator. Given the following interests and news articles, provide a contextified summary of the latest news that would be relevant to these interests. 
+
+Respond with a JSON object where each key is the exact title of ONE news article (copy the title field exactly), and the value is an object with:
+
+{
+  "interests": [list of matching interests],
+  "summary": "brief news blurb (at least 3 sentences) that connects this article to those interests"
+}
+
+Each news article should only appear once, and include articles that are at least slightly relevant to at least one interest.
+
+Here are the interests:
 '''
 
 # TODO: Change the interests_json and example_news to be dynamic based on user input or session state

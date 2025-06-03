@@ -35,6 +35,7 @@ def get_headlines(save_to_file=False):
     top_headlines = newsapi.get_top_headlines(
         language="en",
         country="us",
+        page_size=20
     )
 
     if save_to_file:
