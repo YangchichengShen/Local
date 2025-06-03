@@ -38,7 +38,6 @@ Each news article should only appear once, and include articles that are at leas
 Here are the interests:
 '''
 
-# TODO: Change the interests_json and example_news to be dynamic based on user input or session state
 def get_contextified_news(interests=interests_json, news=example_news):
     # Call the Gemini API to get the news contextified to the interests
     prompt = contextify_prompt + "\n\n" + str(interests) + "\n\n" + str(news)
