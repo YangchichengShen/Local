@@ -45,7 +45,7 @@ interests_dict = json.loads(interests_dict_str)
 # --- LOAD NewsAPI ARTICLES ---
 news_json_path = os.path.join("outputs", "news.json")
 if os.path.exists(news_json_path):
-    with open(news_json_path, "r", encoding="utf-8") as f:
+    with open(news_json_path, "r", encoding='utf-8') as f:
         news_api_raw = json.load(f)
         news_api_articles = news_api_raw.get("articles", [])
 else:

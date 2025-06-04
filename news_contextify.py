@@ -24,13 +24,13 @@ You do not include all interests in the output, only the ones that have relevant
 '''
 
 contextify_prompt = '''
-You are a news aggregator. Given the following interests and news articles, provide a contextified summary of the latest news that would be relevant to these interests. 
+You are a news aggregator. Given the following interests and news articles, provide a contextified summary of the latest news that would be relevant to these interests, even if the connection is not obvious or clearly stated in the article. 
 
 Respond with a JSON object where each key is the exact title of ONE news article (copy the title field exactly), and the value is an object with:
 
 {
   "interests": [list of matching interests],
-  "summary": "brief news blurb (at least 3 sentences) that connects this article to those interests"
+  "summary": "brief news blurb (at least 3 sentences) that explains why this article is relevant to each ofthose interests"
 }
 
 Each news article should only appear once, and include articles that are at least slightly relevant to at least one interest.

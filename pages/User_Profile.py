@@ -34,6 +34,8 @@ interests = interest_json["interests"]
 # Session state
 if "interests" not in st.session_state:
     st.session_state.interests = interests
+if "selected_interest" not in st.session_state:
+    st.session_state.selected_interest = None
 
 # --- STYLE ---
 st.markdown("""
@@ -72,11 +74,11 @@ else:
 st.subheader("➕ Add Additional Interests")
 st.write("*(One interest per submission)*")
 
-with st.form(key='interest_form'):
+with st.form(key='add_interest_form'):
     additional_interest = st.text_input("New Interest")
-    submit = st.form_submit_button("Add Interest")
+    submit_add = st.form_submit_button("Add Interest")
     
-    if submit and additional_interest:
+    if submit_add and additional_interest:
         if additional_interest not in st.session_state.interests:
             st.session_state.interests.append(additional_interest)
             # Save to file
@@ -86,6 +88,25 @@ with st.form(key='interest_form'):
             st.rerun()
         else:
             st.warning(f"'{additional_interest}' is already in your interests.")
+
+# --- Remove Interests Form ---
+st.subheader("➖ Remove Interests")
+st.write("*(One interest per submission)*")
+
+with st.form(key='remove_interest_form'):
+    remove_interest = st.text_input("Interest to Remove")
+    submit_remove = st.form_submit_button("Remove Interest")
+    
+    if submit_remove and remove_interest:
+        if remove_interest in st.session_state.interests:
+            st.session_state.interests.remove(remove_interest)
+            # Save to file
+            with open(path_to_json, "w", encoding="utf-8") as f:
+                json.dump({"interests": st.session_state.interests}, f, ensure_ascii=False, indent=2)
+            st.success(f"Removed: {remove_interest}")
+            st.rerun()
+        else:
+            st.warning(f"'{remove_interest}' was not found in your interests.")
 
 # --- Reddit Auth ---
 st.subheader("🔗 Connect with Reddit")
